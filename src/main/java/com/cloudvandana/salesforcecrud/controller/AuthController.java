@@ -1,6 +1,5 @@
 package com.cloudvandana.salesforcecrud.controller;
 
-import com.cloudvandana.salesforcecrud.dto.SalesforceTokenResponse;
 import com.cloudvandana.salesforcecrud.service.SalesforceAuthService;
 
 import jakarta.servlet.http.HttpSession;
@@ -10,11 +9,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin(
-        origins = "http://localhost:5173",
+        origins = {
+                "http://localhost:3000",
+                "https://salesforce-phi.vercel.app"
+        },
         allowCredentials = "true"
 )
 public class AuthController {
@@ -24,19 +27,28 @@ public class AuthController {
     public AuthController(
             SalesforceAuthService salesforceAuthService) {
 
-        this.salesforceAuthService =
-                salesforceAuthService;
+        this.salesforceAuthService = salesforceAuthService;
     }
+
+    // =========================================================
+    // SALESFORCE LOGIN
+    // =========================================================
 
     @GetMapping("/login")
-    public String login(HttpSession session) {
+    public RedirectView login(HttpSession session) {
 
-        return salesforceAuthService
-                .getAuthorizationUrl(session);
+        String authorizationUrl =
+                salesforceAuthService.getAuthorizationUrl(session);
+
+        return new RedirectView(authorizationUrl);
     }
 
+    // =========================================================
+    // SALESFORCE CALLBACK
+    // =========================================================
+
     @GetMapping("/callback")
-    public String callback(
+    public RedirectView callback(
             @RequestParam("code") String code,
             HttpSession session) {
 
@@ -45,7 +57,8 @@ public class AuthController {
                 session
         );
 
-        return "Salesforce login successful. "
-                + "You can now use the CRUD APIs.";
+        return new RedirectView(
+                "https://salesforce-phi.vercel.app/"
+        );
     }
 }

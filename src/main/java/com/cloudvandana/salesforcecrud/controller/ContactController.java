@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/contacts")
 @CrossOrigin(
-        origins = "http://localhost:5173",
+        origins = {
+                "http://localhost:3000",
+                "https://salesforce-phi.vercel.app"
+        },
         allowCredentials = "true"
 )
 public class ContactController {
