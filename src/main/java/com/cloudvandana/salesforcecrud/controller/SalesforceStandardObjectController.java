@@ -1,7 +1,7 @@
 package com.cloudvandana.salesforcecrud.controller;
 
 import com.cloudvandana.salesforcecrud.service.SalesforceStandardObjectService;
-
+import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,97 +22,63 @@ public class SalesforceStandardObjectController {
 
     public SalesforceStandardObjectController(
             SalesforceStandardObjectService service) {
-
         this.service = service;
     }
-
-    // =========================================================
-    // GET RECORDS
-    // DEFAULT = 20
-    // =========================================================
 
     @GetMapping("/{object}")
     public ResponseEntity<?> getRecords(
             @PathVariable String object,
             @RequestParam(defaultValue = "20") int limit,
-            @RequestParam(defaultValue = "0") int offset) {
+            @RequestParam(defaultValue = "0") int offset,
+            HttpSession session) {
 
         return ResponseEntity.ok(
-                service.getRecords(
-                        object,
-                        limit,
-                        offset
-                )
+                service.getRecords(object, limit, offset, session)
         );
     }
-
-    // =========================================================
-    // GET BY ID
-    // =========================================================
 
     @GetMapping("/{object}/{id}")
     public ResponseEntity<?> getById(
             @PathVariable String object,
-            @PathVariable String id) {
+            @PathVariable String id,
+            HttpSession session) {
 
         return ResponseEntity.ok(
-                service.getById(
-                        object,
-                        id
-                )
+                service.getById(object, id, session)
         );
     }
-
-    // =========================================================
-    // CREATE
-    // =========================================================
 
     @PostMapping("/{object}")
     public ResponseEntity<?> create(
             @PathVariable String object,
-            @RequestBody Map<String, Object> request) {
+            @RequestBody Map<String, Object> request,
+            HttpSession session) {
 
         return ResponseEntity.ok(
-                service.create(
-                        object,
-                        request
-                )
+                service.create(object, request, session)
         );
     }
-
-    // =========================================================
-    // UPDATE
-    // =========================================================
 
     @PutMapping("/{object}/{id}")
     public ResponseEntity<?> update(
             @PathVariable String object,
             @PathVariable String id,
-            @RequestBody Map<String, Object> request) {
+            @RequestBody Map<String, Object> request,
+            HttpSession session) {
 
         return ResponseEntity.ok(
-                service.update(
-                        object,
-                        id,
-                        request
-                )
+                service.update(object, id, request, session)
         );
     }
-
-    // =========================================================
-    // DELETE
-    // =========================================================
 
     @DeleteMapping("/{object}/{id}")
     public ResponseEntity<?> delete(
             @PathVariable String object,
-            @PathVariable String id) {
+            @PathVariable String id,
+            HttpSession session) {
 
         return ResponseEntity.ok(
-                service.delete(
-                        object,
-                        id
-                )
+                service.delete(object, id, session)
         );
     }
 }
