@@ -1,0 +1,1052 @@
+Comparing files SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java and COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+    3:  import com.cloudvandana.salesforcecrud.dto.SalesforceTokenResponse;
+    4:  
+    5:  import jakarta.servlet.http.HttpSession;
+    6:  
+    7:  import org.springframework.beans.factory.annotation.Value;
+    8:  
+    9:  import org.springframework.http.HttpEntity;
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+    3:  import com.cloudvandana.salesforcecrud.dto.SalesforceTokenResponse;
+    4:  import jakarta.servlet.http.HttpSession;
+    5:  import org.springframework.beans.factory.annotation.Value;
+    6:  import org.springframework.http.HttpEntity;
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+   13:  import org.springframework.http.ResponseEntity;
+   14:  
+   15:  import org.springframework.http.client.JdkClientHttpRequestFactory;
+   16:  
+   17:  import org.springframework.stereotype.Service;
+   18:  
+   19:  import org.springframework.web.client.RestClientResponseException;
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+   10:  import org.springframework.http.ResponseEntity;
+   11:  import org.springframework.http.client.JdkClientHttpRequestFactory;
+   12:  import org.springframework.stereotype.Service;
+   13:  import org.springframework.web.client.RestClientResponseException;
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+   20:  import org.springframework.web.client.RestTemplate;
+   21:  
+   22:  import org.springframework.web.util.UriComponentsBuilder;
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+   14:  import org.springframework.web.client.RestTemplate;
+   15:  import org.springframework.web.util.UriComponentsBuilder;
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+   25:  import java.net.http.HttpClient;
+   26:  
+   27:  import java.util.Collections;
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+   18:  import java.net.http.HttpClient;
+   19:  import java.util.Collections;
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+   39:  
+   40:      private final Map<String, String> objectNames =
+   41:              new LinkedHashMap<>();
+   42:  
+   43:      private final Map<String, String> objectFields =
+   44:              new LinkedHashMap<>();
+   45:  
+   46:      public SalesforceStandardObjectService(
+   47:              SalesforceTokenStore tokenStore) {
+   48:  
+   49:          this.tokenStore = tokenStore;
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+   31:  
+   32:      private final Map<String, String> objectNames = new LinkedHashMap<>();
+   33:      private final Map<String, String> objectFields = new LinkedHashMap<>();
+   34:  
+   35:      public SalesforceStandardObjectService(SalesforceTokenStore tokenStore) {
+   36:          this.tokenStore = tokenStore;
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+   50:  
+   51:          HttpClient httpClient =
+   52:                  HttpClient.newBuilder()
+   53:                          .build();
+   54:  
+   55:          this.restTemplate =
+   56:                  new RestTemplate(
+   57:                          new JdkClientHttpRequestFactory(
+   58:                                  httpClient
+   59:                          )
+   60:                  );
+   61:  
+   62:          // =====================================================
+   63:          // SALESFORCE STANDARD OBJECTS
+   64:          // Accept BOTH singular and plural API names
+   65:          // =====================================================
+   66:  
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+   37:  
+   38:          HttpClient httpClient = HttpClient.newBuilder().build();
+   39:          this.restTemplate = new RestTemplate(new JdkClientHttpRequestFactory(httpClient));
+   40:  
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+   68:          objectNames.put("accounts", "Account");
+   69:  
+   70:          objectNames.put("opportunity", "Opportunity");
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+   42:          objectNames.put("accounts", "Account");
+   43:          objectNames.put("opportunity", "Opportunity");
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+   71:          objectNames.put("opportunities", "Opportunity");
+   72:  
+   73:          objectNames.put("lead", "Lead");
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+   44:          objectNames.put("opportunities", "Opportunity");
+   45:          objectNames.put("lead", "Lead");
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+   74:          objectNames.put("leads", "Lead");
+   75:  
+   76:          objectNames.put("case", "Case");
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+   46:          objectNames.put("leads", "Lead");
+   47:          objectNames.put("case", "Case");
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+   78:  
+   79:          // =====================================================
+   80:          // SALESFORCE FIELDS
+   81:          // =====================================================
+   82:  
+   83:          objectFields.put(
+   84:                  "account",
+   85:                  "Id,Name,Phone,Website,Industry,Type,BillingCity"
+   86:          );
+   87:  
+   88:          objectFields.put(
+   89:                  "accounts",
+   90:                  "Id,Name,Phone,Website,Industry,Type,BillingCity"
+   91:          );
+   92:  
+   93:          objectFields.put(
+   94:                  "opportunity",
+   95:                  "Id,Name,StageName,CloseDate,Amount,Probability,Type"
+   96:          );
+   97:  
+   98:          objectFields.put(
+   99:                  "opportunities",
+  100:                  "Id,Name,StageName,CloseDate,Amount,Probability,Type"
+  101:          );
+  102:  
+  103:          objectFields.put(
+  104:                  "lead",
+  105:                  "Id,FirstName,LastName,Company,Email,Phone,Status,LeadSource"
+  106:          );
+  107:  
+  108:          objectFields.put(
+  109:                  "leads",
+  110:                  "Id,FirstName,LastName,Company,Email,Phone,Status,LeadSource"
+  111:          );
+  112:  
+  113:          objectFields.put(
+  114:                  "case",
+  115:                  "Id,CaseNumber,Subject,Status,Priority,Origin,Type,Description"
+  116:          );
+  117:  
+  118:          objectFields.put(
+  119:                  "cases",
+  120:                  "Id,CaseNumber,Subject,Status,Priority,Origin,Type,Description"
+  121:          );
+  122:      }
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+   49:  
+   50:          objectFields.put("account", "Id,Name,Phone,Website,Industry,Type,BillingCity");
+   51:          objectFields.put("accounts", "Id,Name,Phone,Website,Industry,Type,BillingCity");
+   52:          objectFields.put("opportunity", "Id,Name,StageName,CloseDate,Amount,Probability,Type");
+   53:          objectFields.put("opportunities", "Id,Name,StageName,CloseDate,Amount,Probability,Type");
+   54:          objectFields.put("lead", "Id,FirstName,LastName,Company,Email,Phone,Status,LeadSource");
+   55:          objectFields.put("leads", "Id,FirstName,LastName,Company,Email,Phone,Status,LeadSource");
+   56:          objectFields.put("case", "Id,CaseNumber,Subject,Status,Priority,Origin,Type,Description");
+   57:          objectFields.put("cases", "Id,CaseNumber,Subject,Status,Priority,Origin,Type,Description");
+   58:      }
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+  123:  
+  124:      // =========================================================
+  125:      // GET ALL RECORDS
+  126:      // =========================================================
+  127:  
+  128:      public Object getRecords(
+  129:              String object,
+  130:              int limit,
+  131:              int offset,
+  132:              HttpSession session) {
+  133:  
+  134:          SalesforceTokenResponse token =
+  135:                  getToken(session);
+  136:  
+  137:          String normalizedObject =
+  138:                  normalizeObject(object);
+  139:  
+  140:          String salesforceObject =
+  141:                  getSalesforceObjectName(normalizedObject);
+  142:  
+  143:          String fields =
+  144:                  objectFields.get(normalizedObject);
+  145:  
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+   59:  
+   60:      public Object getRecords(String object, int limit, int offset, HttpSession session) {
+   61:          SalesforceTokenResponse token = getToken(session);
+   62:          String normalizedObject = normalizeObject(object);
+   63:          String salesforceObject = getSalesforceObjectName(normalizedObject);
+   64:          String fields = objectFields.get(normalizedObject);
+   65:  
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+  146:          if (fields == null) {
+  147:              throw new IllegalArgumentException(
+  148:                      "Unsupported Salesforce object: " + object
+  149:              );
+  150:          }
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+   66:          if (fields == null) {
+   67:              throw new IllegalArgumentException("Unsupported Salesforce object: " + object);
+   68:          }
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+  151:  
+  152:          int safeLimit =
+  153:                  Math.min(
+  154:                          Math.max(limit, 1),
+  155:                          20
+  156:                  );
+  157:  
+  158:          int safeOffset =
+  159:                  Math.min(
+  160:                          Math.max(offset, 0),
+  161:                          2000
+  162:                  );
+  163:  
+  164:          String soql =
+  165:                  "SELECT "
+  166:                          + fields
+  167:                          + " FROM "
+  168:                          + salesforceObject
+  169:                          + " LIMIT "
+  170:                          + safeLimit
+  171:                          + " OFFSET "
+  172:                          + safeOffset;
+  173:  
+  174:          URI uri =
+  175:                  UriComponentsBuilder
+  176:                          .fromUriString(
+  177:                                  token.getInstanceUrl()
+  178:                          )
+  179:                          .path("/services/data/")
+  180:                          .path(apiVersion)
+  181:                          .path("/query")
+  182:                          .queryParam("q", soql)
+  183:                          .build()
+  184:                          .encode()
+  185:                          .toUri();
+  186:  
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+   69:  
+   70:          int safeLimit = Math.min(Math.max(limit, 1), 20);
+   71:          int safeOffset = Math.min(Math.max(offset, 0), 2000);
+   72:  
+   73:          String soql = "SELECT " + fields + " FROM " + salesforceObject
+   74:                  + " LIMIT " + safeLimit + " OFFSET " + safeOffset;
+   75:  
+   76:          URI uri = UriComponentsBuilder.fromUriString(token.getInstanceUrl())
+   77:                  .path("/services/data/")
+   78:                  .path(apiVersion)
+   79:                  .path("/query")
+   80:                  .queryParam("q", soql)
+   81:                  .build()
+   82:                  .encode()
+   83:                  .toUri();
+   84:  
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+  187:          try {
+  188:  
+  189:              ResponseEntity<Object> response =
+  190:                      restTemplate.exchange(
+  191:                              uri,
+  192:                              HttpMethod.GET,
+  193:                              new HttpEntity<>(
+  194:                                      createHeaders(token)
+  195:                              ),
+  196:                              Object.class
+  197:                      );
+  198:  
+  199:              return response.getBody();
+  200:  
+  201:          } catch (RestClientResponseException e) {
+  202:  
+  203:              throw new RuntimeException(
+  204:                      "Salesforce "
+  205:                              + salesforceObject
+  206:                              + " query failed: "
+  207:                              + e.getResponseBodyAsString(),
+  208:                      e
+  209:              );
+  210:          }
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+   85:          try {
+   86:              ResponseEntity<Object> response = restTemplate.exchange(
+   87:                      uri,
+   88:                      HttpMethod.GET,
+   89:                      new HttpEntity<>(createHeaders(token)),
+   90:                      Object.class
+   91:              );
+   92:              return mapQueryResponse(response.getBody(), normalizedObject);
+   93:          } catch (RestClientResponseException e) {
+   94:              throw salesforceError(salesforceObject, "query", e);
+   95:          }
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+  212:  
+  213:      // =========================================================
+  214:      // GET RECORD BY ID
+  215:      // =========================================================
+  216:  
+  217:      public Object getById(
+  218:              String object,
+  219:              String id,
+  220:              HttpSession session) {
+  221:  
+  222:          SalesforceTokenResponse token =
+  223:                  getToken(session);
+  224:  
+  225:          String salesforceObject =
+  226:                  getSalesforceObjectName(object);
+  227:  
+  228:          URI uri =
+  229:                  UriComponentsBuilder
+  230:                          .fromUriString(
+  231:                                  token.getInstanceUrl()
+  232:                          )
+  233:                          .path("/services/data/")
+  234:                          .path(apiVersion)
+  235:                          .path("/sobjects/")
+  236:                          .path(salesforceObject)
+  237:                          .path("/")
+  238:                          .path(id)
+  239:                          .build()
+  240:                          .encode()
+  241:                          .toUri();
+  242:  
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+   97:  
+   98:      public Object getById(String object, String id, HttpSession session) {
+   99:          SalesforceTokenResponse token = getToken(session);
+  100:          String normalizedObject = normalizeObject(object);
+  101:          String salesforceObject = getSalesforceObjectName(normalizedObject);
+  102:  
+  103:          URI uri = UriComponentsBuilder.fromUriString(token.getInstanceUrl())
+  104:                  .path("/services/data/")
+  105:                  .path(apiVersion)
+  106:                  .path("/sobjects/")
+  107:                  .path(salesforceObject)
+  108:                  .path("/")
+  109:                  .path(id)
+  110:                  .build()
+  111:                  .encode()
+  112:                  .toUri();
+  113:  
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+  243:          try {
+  244:  
+  245:              ResponseEntity<Object> response =
+  246:                      restTemplate.exchange(
+  247:                              uri,
+  248:                              HttpMethod.GET,
+  249:                              new HttpEntity<>(
+  250:                                      createHeaders(token)
+  251:                              ),
+  252:                              Object.class
+  253:                      );
+  254:  
+  255:              return response.getBody();
+  256:  
+  257:          } catch (RestClientResponseException e) {
+  258:  
+  259:              throw new RuntimeException(
+  260:                      "Salesforce "
+  261:                              + salesforceObject
+  262:                              + " lookup failed: "
+  263:                              + e.getResponseBodyAsString(),
+  264:                      e
+  265:              );
+  266:          }
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+  114:          try {
+  115:              ResponseEntity<Object> response = restTemplate.exchange(
+  116:                      uri,
+  117:                      HttpMethod.GET,
+  118:                      new HttpEntity<>(createHeaders(token)),
+  119:                      Object.class
+  120:              );
+  121:              return mapRecord(response.getBody(), normalizedObject);
+  122:          } catch (RestClientResponseException e) {
+  123:              throw salesforceError(salesforceObject, "lookup", e);
+  124:          }
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+  268:  
+  269:      // =========================================================
+  270:      // CREATE
+  271:      // =========================================================
+  272:  
+  273:      public Object create(
+  274:              String object,
+  275:              Map<String, Object> request,
+  276:              HttpSession session) {
+  277:  
+  278:          SalesforceTokenResponse token =
+  279:                  getToken(session);
+  280:  
+  281:          String salesforceObject =
+  282:                  getSalesforceObjectName(object);
+  283:  
+  284:          URI uri =
+  285:                  UriComponentsBuilder
+  286:                          .fromUriString(
+  287:                                  token.getInstanceUrl()
+  288:                          )
+  289:                          .path("/services/data/")
+  290:                          .path(apiVersion)
+  291:                          .path("/sobjects/")
+  292:                          .path(salesforceObject)
+  293:                          .build()
+  294:                          .encode()
+  295:                          .toUri();
+  296:  
+  297:          HttpHeaders headers =
+  298:                  createHeaders(token);
+  299:  
+  300:          headers.setContentType(
+  301:                  MediaType.APPLICATION_JSON
+  302:          );
+  303:  
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+  126:  
+  127:      public Object create(String object, Map<String, Object> request, HttpSession session) {
+  128:          SalesforceTokenResponse token = getToken(session);
+  129:          String normalizedObject = normalizeObject(object);
+  130:          String salesforceObject = getSalesforceObjectName(normalizedObject);
+  131:  
+  132:          URI uri = UriComponentsBuilder.fromUriString(token.getInstanceUrl())
+  133:                  .path("/services/data/")
+  134:                  .path(apiVersion)
+  135:                  .path("/sobjects/")
+  136:                  .path(salesforceObject)
+  137:                  .build()
+  138:                  .encode()
+  139:                  .toUri();
+  140:  
+  141:          HttpHeaders headers = createHeaders(token);
+  142:          headers.setContentType(MediaType.APPLICATION_JSON);
+  143:  
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+  304:          try {
+  305:  
+  306:              ResponseEntity<Object> response =
+  307:                      restTemplate.exchange(
+  308:                              uri,
+  309:                              HttpMethod.POST,
+  310:                              new HttpEntity<>(
+  311:                                      cleanPayload(request),
+  312:                                      headers
+  313:                              ),
+  314:                              Object.class
+  315:                      );
+  316:  
+  317:              return response.getBody();
+  318:  
+  319:          } catch (RestClientResponseException e) {
+  320:  
+  321:              throw new RuntimeException(
+  322:                      "Salesforce "
+  323:                              + salesforceObject
+  324:                              + " create failed: "
+  325:                              + e.getResponseBodyAsString(),
+  326:                      e
+  327:              );
+  328:          }
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+  144:          try {
+  145:              ResponseEntity<Object> response = restTemplate.exchange(
+  146:                      uri,
+  147:                      HttpMethod.POST,
+  148:                      new HttpEntity<>(mapPayload(request, normalizedObject, false), headers),
+  149:                      Object.class
+  150:              );
+  151:              return response.getBody();
+  152:          } catch (RestClientResponseException e) {
+  153:              throw salesforceError(salesforceObject, "create", e);
+  154:          }
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+  330:  
+  331:      // =========================================================
+  332:      // UPDATE
+  333:      // =========================================================
+  334:  
+  335:      public String update(
+  336:              String object,
+  337:              String id,
+  338:              Map<String, Object> request,
+  339:              HttpSession session) {
+  340:  
+  341:          SalesforceTokenResponse token =
+  342:                  getToken(session);
+  343:  
+  344:          String salesforceObject =
+  345:                  getSalesforceObjectName(object);
+  346:  
+  347:          URI uri =
+  348:                  UriComponentsBuilder
+  349:                          .fromUriString(
+  350:                                  token.getInstanceUrl()
+  351:                          )
+  352:                          .path("/services/data/")
+  353:                          .path(apiVersion)
+  354:                          .path("/sobjects/")
+  355:                          .path(salesforceObject)
+  356:                          .path("/")
+  357:                          .path(id)
+  358:                          .build()
+  359:                          .encode()
+  360:                          .toUri();
+  361:  
+  362:          HttpHeaders headers =
+  363:                  createHeaders(token);
+  364:  
+  365:          headers.setContentType(
+  366:                  MediaType.APPLICATION_JSON
+  367:          );
+  368:  
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+  156:  
+  157:      public String update(String object, String id, Map<String, Object> request, HttpSession session) {
+  158:          SalesforceTokenResponse token = getToken(session);
+  159:          String normalizedObject = normalizeObject(object);
+  160:          String salesforceObject = getSalesforceObjectName(normalizedObject);
+  161:  
+  162:          URI uri = UriComponentsBuilder.fromUriString(token.getInstanceUrl())
+  163:                  .path("/services/data/")
+  164:                  .path(apiVersion)
+  165:                  .path("/sobjects/")
+  166:                  .path(salesforceObject)
+  167:                  .path("/")
+  168:                  .path(id)
+  169:                  .build()
+  170:                  .encode()
+  171:                  .toUri();
+  172:  
+  173:          HttpHeaders headers = createHeaders(token);
+  174:          headers.setContentType(MediaType.APPLICATION_JSON);
+  175:  
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+  369:          try {
+  370:  
+  371:              restTemplate.exchange(
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+  176:          try {
+  177:              restTemplate.exchange(
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+  373:                      HttpMethod.PATCH,
+  374:                      new HttpEntity<>(
+  375:                              cleanPayload(request),
+  376:                              headers
+  377:                      ),
+  378:                      Void.class
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+  179:                      HttpMethod.PATCH,
+  180:                      new HttpEntity<>(mapPayload(request, normalizedObject, true), headers),
+  181:                      Void.class
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+  379:              );
+  380:  
+  381:              return "Record updated successfully";
+  382:  
+  383:          } catch (RestClientResponseException e) {
+  384:  
+  385:              throw new RuntimeException(
+  386:                      "Salesforce "
+  387:                              + salesforceObject
+  388:                              + " update failed: "
+  389:                              + e.getResponseBodyAsString(),
+  390:                      e
+  391:              );
+  392:          }
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+  182:              );
+  183:              return "Record updated successfully";
+  184:          } catch (RestClientResponseException e) {
+  185:              throw salesforceError(salesforceObject, "update", e);
+  186:          }
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+  394:  
+  395:      // =========================================================
+  396:      // DELETE
+  397:      // =========================================================
+  398:  
+  399:      public String delete(
+  400:              String object,
+  401:              String id,
+  402:              HttpSession session) {
+  403:  
+  404:          SalesforceTokenResponse token =
+  405:                  getToken(session);
+  406:  
+  407:          String salesforceObject =
+  408:                  getSalesforceObjectName(object);
+  409:  
+  410:          URI uri =
+  411:                  UriComponentsBuilder
+  412:                          .fromUriString(
+  413:                                  token.getInstanceUrl()
+  414:                          )
+  415:                          .path("/services/data/")
+  416:                          .path(apiVersion)
+  417:                          .path("/sobjects/")
+  418:                          .path(salesforceObject)
+  419:                          .path("/")
+  420:                          .path(id)
+  421:                          .build()
+  422:                          .encode()
+  423:                          .toUri();
+  424:  
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+  188:  
+  189:      public String delete(String object, String id, HttpSession session) {
+  190:          SalesforceTokenResponse token = getToken(session);
+  191:          String normalizedObject = normalizeObject(object);
+  192:          String salesforceObject = getSalesforceObjectName(normalizedObject);
+  193:  
+  194:          URI uri = UriComponentsBuilder.fromUriString(token.getInstanceUrl())
+  195:                  .path("/services/data/")
+  196:                  .path(apiVersion)
+  197:                  .path("/sobjects/")
+  198:                  .path(salesforceObject)
+  199:                  .path("/")
+  200:                  .path(id)
+  201:                  .build()
+  202:                  .encode()
+  203:                  .toUri();
+  204:  
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+  425:          try {
+  426:  
+  427:              restTemplate.exchange(
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+  205:          try {
+  206:              restTemplate.exchange(
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+  429:                      HttpMethod.DELETE,
+  430:                      new HttpEntity<>(
+  431:                              createHeaders(token)
+  432:                      ),
+  433:                      Void.class
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+  208:                      HttpMethod.DELETE,
+  209:                      new HttpEntity<>(createHeaders(token)),
+  210:                      Void.class
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+  434:              );
+  435:  
+  436:              return "Record deleted successfully";
+  437:  
+  438:          } catch (RestClientResponseException e) {
+  439:  
+  440:              throw new RuntimeException(
+  441:                      "Salesforce "
+  442:                              + salesforceObject
+  443:                              + " delete failed: "
+  444:                              + e.getResponseBodyAsString(),
+  445:                      e
+  446:              );
+  447:          }
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+  211:              );
+  212:              return "Record deleted successfully";
+  213:          } catch (RestClientResponseException e) {
+  214:              throw salesforceError(salesforceObject, "delete", e);
+  215:          }
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+  449:  
+  450:      // =========================================================
+  451:      // NORMALIZE OBJECT
+  452:      // =========================================================
+  453:  
+  454:      private String normalizeObject(String object) {
+  455:  
+  456:          if (object == null) {
+  457:              return "";
+  458:          }
+  459:  
+  460:          return object
+  461:                  .trim()
+  462:                  .toLowerCase();
+  463:      }
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+  217:  
+  218:      /** Convert the frontend camelCase field names to Salesforce REST field names. */
+  219:      private Map<String, Object> mapPayload(
+  220:              Map<String, Object> request,
+  221:              String object,
+  222:              boolean update) {
+  223:  
+  224:          Map<String, Object> payload = new LinkedHashMap<>();
+  225:          if (request == null) return payload;
+  226:  
+  227:          request.forEach((key, value) -> {
+  228:              if (key == null || key.isBlank() || value == null) return;
+  229:  
+  230:              String salesforceField = salesforceField(object, key);
+  231:  
+  232:              // CaseNumber is read-only and generated by Salesforce.
+  233:              if ("Case".equals(getSalesforceObjectName(object))
+  234:                      && "CaseNumber".equals(salesforceField)) {
+  235:                  return;
+  236:              }
+  237:  
+  238:              payload.put(salesforceField, value);
+  239:          });
+  240:  
+  241:          return payload;
+  242:      }
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+  464:  
+  465:      // =========================================================
+  466:      // GET SALESFORCE OBJECT NAME
+  467:      // =========================================================
+  468:  
+  469:      private String getSalesforceObjectName(
+  470:              String object) {
+  471:  
+  472:          String normalized =
+  473:                  normalizeObject(object);
+  474:  
+  475:          String salesforceObject =
+  476:                  objectNames.get(normalized);
+  477:  
+  478:          if (salesforceObject == null) {
+  479:  
+  480:              throw new IllegalArgumentException(
+  481:                      "Unsupported Salesforce object: "
+  482:                              + object
+  483:              );
+  484:          }
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+  243:  
+  244:      private String salesforceField(String object, String key) {
+  245:          String normalized = normalizeObject(object);
+  246:  
+  247:          Map<String, String> fields = new LinkedHashMap<>();
+  248:  
+  249:          if (normalized.equals("account") || normalized.equals("accounts")) {
+  250:              fields.put("id", "Id");
+  251:              fields.put("name", "Name");
+  252:              fields.put("phone", "Phone");
+  253:              fields.put("website", "Website");
+  254:              fields.put("industry", "Industry");
+  255:              fields.put("type", "Type");
+  256:              fields.put("billingCity", "BillingCity");
+  257:          } else if (normalized.equals("opportunity") || normalized.equals("opportunities")) {
+  258:              fields.put("id", "Id");
+  259:              fields.put("name", "Name");
+  260:              fields.put("stageName", "StageName");
+  261:              fields.put("closeDate", "CloseDate");
+  262:              fields.put("amount", "Amount");
+  263:              fields.put("probability", "Probability");
+  264:              fields.put("type", "Type");
+  265:          } else if (normalized.equals("lead") || normalized.equals("leads")) {
+  266:              fields.put("id", "Id");
+  267:              fields.put("firstName", "FirstName");
+  268:              fields.put("lastName", "LastName");
+  269:              fields.put("company", "Company");
+  270:              fields.put("email", "Email");
+  271:              fields.put("phone", "Phone");
+  272:              fields.put("status", "Status");
+  273:              fields.put("leadSource", "LeadSource");
+  274:          } else if (normalized.equals("case") || normalized.equals("cases")) {
+  275:              fields.put("id", "Id");
+  276:              fields.put("caseNumber", "CaseNumber");
+  277:              fields.put("subject", "Subject");
+  278:              fields.put("status", "Status");
+  279:              fields.put("priority", "Priority");
+  280:              fields.put("origin", "Origin");
+  281:              fields.put("type", "Type");
+  282:              fields.put("description", "Description");
+  283:          }
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+  485:  
+  486:          return salesforceObject;
+  487:      }
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+  284:  
+  285:          return fields.getOrDefault(key, key);
+  286:      }
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+  488:  
+  489:      // =========================================================
+  490:      // GET TOKEN
+  491:      // =========================================================
+  492:  
+  493:      private SalesforceTokenResponse getToken(
+  494:              HttpSession session) {
+  495:  
+  496:          SalesforceTokenResponse token =
+  497:                  tokenStore.getToken();
+  498:  
+  499:          if (token != null
+  500:                  && token.getAccessToken() != null
+  501:                  && !token.getAccessToken().isBlank()) {
+  502:  
+  503:              return token;
+  504:          }
+  505:  
+  506:          if (session != null) {
+  507:  
+  508:              Object sessionToken =
+  509:                      session.getAttribute(
+  510:                              "salesforceToken"
+  511:                      );
+  512:  
+  513:              if (sessionToken
+  514:                      instanceof SalesforceTokenResponse) {
+  515:  
+  516:                  token =
+  517:                          (SalesforceTokenResponse)
+  518:                                  sessionToken;
+  519:  
+  520:                  tokenStore.saveToken(token);
+  521:  
+  522:                  return token;
+  523:              }
+  524:          }
+  525:  
+  526:          throw new RuntimeException(
+  527:                  "Salesforce session not found. Please login again."
+  528:          );
+  529:      }
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+  287:  
+  288:      private Object mapQueryResponse(Object body, String object) {
+  289:          if (!(body instanceof Map<?, ?> raw)) return body;
+  290:  
+  291:          Map<String, Object> result = new LinkedHashMap<>();
+  292:          raw.forEach((key, value) -> result.put(String.valueOf(key), value));
+  293:  
+  294:          Object records = result.get("records");
+  295:          if (records instanceof Iterable<?> iterable) {
+  296:              java.util.List<Object> mapped = new java.util.ArrayList<>();
+  297:              for (Object record : iterable) {
+  298:                  mapped.add(mapRecord(record, object));
+  299:              }
+  300:              result.put("records", mapped);
+  301:          }
+  302:          return result;
+  303:      }
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+  530:  
+  531:      // =========================================================
+  532:      // HEADERS
+  533:      // =========================================================
+  534:  
+  535:      private HttpHeaders createHeaders(
+  536:              SalesforceTokenResponse token) {
+  537:  
+  538:          HttpHeaders headers =
+  539:                  new HttpHeaders();
+  540:  
+  541:          headers.setBearerAuth(
+  542:                  token.getAccessToken()
+  543:          );
+  544:  
+  545:          headers.setAccept(
+  546:                  Collections.singletonList(
+  547:                          MediaType.APPLICATION_JSON
+  548:                  )
+  549:          );
+  550:  
+  551:          return headers;
+  552:      }
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+  304:  
+  305:      private Object mapRecord(Object body, String object) {
+  306:          if (!(body instanceof Map<?, ?> raw)) return body;
+  307:  
+  308:          Map<String, Object> source = new LinkedHashMap<>();
+  309:          raw.forEach((key, value) -> source.put(String.valueOf(key), value));
+  310:          Map<String, Object> result = new LinkedHashMap<>();
+  311:  
+  312:          source.forEach((key, value) -> {
+  313:              String frontendKey = frontendField(object, key);
+  314:              result.put(frontendKey, value);
+  315:          });
+  316:          return result;
+  317:      }
+*****
+
+***** SRC\MAIN\JAVA\COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SalesforceStandardObjectService.java
+  553:  
+  554:      // =========================================================
+  555:      // CLEAN PAYLOAD
+  556:      // =========================================================
+  557:  
+  558:      private Map<String, Object> cleanPayload(
+  559:              Map<String, Object> request) {
+  560:  
+  561:          Map<String, Object> cleanPayload =
+  562:                  new LinkedHashMap<>();
+  563:  
+  564:          if (request == null) {
+  565:              return cleanPayload;
+  566:          }
+  567:  
+  568:          request.forEach(
+  569:                  (key, value) -> {
+  570:  
+  571:                      if (key != null
+  572:                              && !key.isBlank()
+  573:                              && value != null) {
+  574:  
+  575:                          cleanPayload.put(
+  576:                                  key,
+  577:                                  value
+  578:                          );
+  579:                      }
+  580:                  }
+  581:          );
+  582:  
+  583:          return cleanPayload;
+  584:      }
+***** COM\CLOUDVANDANA\SALESFORCECRUD\SERVICE\SALESFORCESTANDARDOBJECTSERVICE.JAVA
+  318:  
+  319:      private String frontendField(String object, String key) {
+  320:          if (key.equals("Id")) return "id";
+  321:          if (key.equals("Name")) return "name";
+  322:  
+  323:          String normalized = normalizeObject(object);
+  324:          if (normalized.equals("account") || normalized.equals("accounts")) {
+  325:              return switch (key) {
+  326:                  case "BillingCity" -> "billingCity";
+  327:                  default -> key.substring(0, 1).toLowerCase() + key.substring(1);
+  328:              };
+  329:          }
+  330:          if (normalized.equals("opportunity") || normalized.equals("opportunities")) {
+  331:              return switch (key) {
+  332:                  case "StageName" -> "stageName";
+  333:                  case "CloseDate" -> "closeDate";
+  334:                  default -> key.substring(0, 1).toLowerCase() + key.substring(1);
+  335:              };
+  336:          }
+  337:          if (normalized.equals("lead") || normalized.equals("leads")) {
+  338:              return switch (key) {
+  339:                  case "FirstName" -> "firstName";
+  340:                  case "LastName" -> "lastName";
+  341:                  case "LeadSource" -> "leadSource";
+  342:                  default -> key.substring(0, 1).toLowerCase() + key.substring(1);
+  343:              };
+  344:          }
+  345:          if (normalized.equals("case") || normalized.equals("cases")) {
+  346:              return switch (key) {
+  347:                  case "CaseNumber" -> "caseNumber";
+  348:                  default -> key.substring(0, 1).toLowerCase() + key.substring(1);
+  349:              };
+  350:          }
+  351:          return key;
+  352:      }
+  353:  
+  354:      private RuntimeException salesforceError(String object, String operation, RestClientResponseException e) {
+  355:          return new RuntimeException(
+  356:                  "Salesforce " + object + " " + operation + " failed: "
+  357:                          + e.getResponseBodyAsString(), e);
+  358:      }
+  359:  
+  360:      private String normalizeObject(String object) {
+  361:          return object == null ? "" : object.trim().toLowerCase();
+  362:      }
+  363:  
+  364:      private String getSalesforceObjectName(String object) {
+  365:          String salesforceObject = objectNames.get(normalizeObject(object));
+  366:          if (salesforceObject == null) {
+  367:              throw new IllegalArgumentException("Unsupported Salesforce object: " + object);
+  368:          }
+  369:          return salesforceObject;
+  370:      }
+  371:  
+  372:      private SalesforceTokenResponse getToken(HttpSession session) {
+  373:          SalesforceTokenResponse token = tokenStore.getToken();
+  374:          if (token != null && token.getAccessToken() != null && !token.getAccessToken().isBlank()) {
+  375:              return token;
+  376:          }
+  377:          if (session != null) {
+  378:              Object sessionToken = session.getAttribute("salesforceToken");
+  379:              if (sessionToken instanceof SalesforceTokenResponse) {
+  380:                  token = (SalesforceTokenResponse) sessionToken;
+  381:                  tokenStore.saveToken(token);
+  382:                  return token;
+  383:              }
+  384:          }
+  385:          throw new RuntimeException("Salesforce session not found. Please login again.");
+  386:      }
+  387:  
+  388:      private HttpHeaders createHeaders(SalesforceTokenResponse token) {
+  389:          HttpHeaders headers = new HttpHeaders();
+  390:          headers.setBearerAuth(token.getAccessToken());
+  391:          headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+  392:          return headers;
+  393:      }
+*****
+
